@@ -4,6 +4,8 @@ const remainTask = document.getElementById("remain-task");
 
 var count = 0 ;
 
+//Adding task 
+
 function addTask(){
     
     if(inputBox.value === ''){
@@ -17,57 +19,65 @@ function addTask(){
 
         count++;
         remainTask.innerHTML = `${count} task left`;
-       // console.log(count);
+
+        saveCount();
+     
     
 
 
-        // ADD DETETE BUTTON
+        // Adding delete BUTTON
 
         let span = document.createElement("span");
         span.innerHTML = "\u00d7";
         li.appendChild(span);
 
     }
+
+    // clear input box when task is added
+
     inputBox.value = '';
     saveData();
-    lengthData()
+    saveCount();
 }
 
-function clearTask(){
-    
-}
+// remove task in the list 
 
 listContainer.addEventListener("click",function(e) {
     if(e.target.tagName === "LI"){
         e.target.classList.toggle("checked");
         saveData();
-        lengthData()
+        
        
     }
     else if(e.target.tagName === "SPAN"){
         e.target.parentElement.remove();
         saveData();
         count--;
-        console.log(count);
         remainTask.innerHTML = `${count} task left`;
-     //   lengthData()
+        saveCount();
       
     }
 },false);
 
+
+// use local storage save and show data
+
 function saveData(){
     localStorage.setItem("data", listContainer.innerHTML);
-}
-
-function lengthData(){
-    localStorage.setItem("data", listContainer.innerHTML);
-    return localStorage.length;
 }
 
 function showData(){
     listContainer.innerHTML = localStorage.getItem("data");
 
 }
-console.log(lengthData());
+
+function saveCount(){
+    localStorage.setItem("Task",count);
+}
+
+function showCount(){
+    count = localStorage.getItem("Task");
+}
 
 showData();
+showCount();
